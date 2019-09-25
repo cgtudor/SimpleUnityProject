@@ -4,8 +4,11 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
+    //Rigidbody rb;
+    public float movementSpeed = 2.0f;
+    public float rotationSpeed = 2.0f;
     Rigidbody rb;
-    public float speed = 2.0f;
+    public GameObject camera;
     void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -14,28 +17,19 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKey(KeyCode.UpArrow))
-        {
-            //Move the Rigidbody forwards constantly at speed you define (the blue arrow axis in Scene view)
-            rb.velocity = transform.forward * speed;
-        }
+        float mH = Input.GetAxis("Horizontal");
+        float mV = Input.GetAxis("Vertical");
 
-        if (Input.GetKey(KeyCode.DownArrow))
-        {
-            //Move the Rigidbody backwards constantly at the speed you define (the blue arrow axis in Scene view)
-            rb.velocity = -transform.forward * speed;
-        }
+        
+        rb.velocity = new Vector3(mH * movementSpeed, rb.velocity.y, mV * movementSpeed);
 
-        if (Input.GetKey(KeyCode.RightArrow))
-        {
-            //Rotate the sprite about the Y axis in the positive direction
-            transform.Rotate(new Vector3(0, 1, 0) * Time.deltaTime * speed, Space.World);
-        }
-
-        if (Input.GetKey(KeyCode.LeftArrow))
-        {
-            //Rotate the sprite about the Y axis in the negative direction
-            transform.Rotate(new Vector3(0, -1, 0) * Time.deltaTime * speed, Space.World);
-        }
+        if (Input.GetKey(KeyCode.Q))
+            transform.Rotate((Vector3.up) * -rotationSpeed);
+        if (Input.GetKey(KeyCode.E))
+            transform.Rotate((Vector3.up) * rotationSpeed);
+        //if (Input.GetAxis("Mouse X") < 0)
+        //    transform.Rotate((Vector3.up) * rotationSpeed);
+        //if (Input.GetAxis("Mouse X") > 0)
+        //    transform.Rotate((Vector3.up) * -rotationSpeed);
     }
 }
